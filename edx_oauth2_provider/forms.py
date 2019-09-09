@@ -67,13 +67,13 @@ class PasswordGrantForm(provider.oauth2.forms.PasswordGrantForm):
     identifier during authentication.
     """
     def clean(self):
-        log.info("DOT password grant form clean")
+        log.info("DOP password grant form clean")
         data = self.cleaned_data  # pylint: disable=no-member
         username = data.get('username')
         password = data.get('password')
 
         user = authenticate(username=username, password=password)
-        log.info("DOT authenticated user %s", user)
+        log.info("DOP authenticated user %s", user)
 
         # If the username was not found try the user using username as
         # the email address. It is valid because the edx-platform has
@@ -82,7 +82,7 @@ class PasswordGrantForm(provider.oauth2.forms.PasswordGrantForm):
             try:
                 user_obj = User.objects.get(email=username)
                 user = authenticate(username=user_obj.username, password=password)
-                log.info("DOT (take 2) authenticated user %s", user)
+                log.info("DOP (take 2) authenticated user %s", user)
             except User.DoesNotExist:
                 user = None
 
@@ -101,7 +101,7 @@ class PasswordGrantForm(provider.oauth2.forms.PasswordGrantForm):
                 'error_description': error_description
             })
 
-        log.info("sending user_logged_in signal from edx-oauth2-provider (DOT)")
+        log.info("sending user_logged_in signal from edx-oauth2-provider (DOP)")
         user_logged_in.send(sender=User, user=user, request=None)
         data['user'] = user
         return data

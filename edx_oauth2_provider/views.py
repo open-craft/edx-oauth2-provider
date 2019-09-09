@@ -26,7 +26,6 @@ from .forms import (
 )
 from .models import TrustedClient
 
-
 # pylint: disable=abstract-method
 class Authorize(provider.oauth2.views.Authorize):
     """
